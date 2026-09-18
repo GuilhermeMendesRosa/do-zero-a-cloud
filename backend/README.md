@@ -4,19 +4,10 @@ API Spring Boot do workshop. O roteiro completo está no [README principal](../R
 
 ## Executar
 
-Requer Java 17 e PostgreSQL com o banco `kanban`.
+Requer apenas Java 17. Esta branch usa H2 em memória, então não é preciso instalar nem configurar um banco local.
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Variáveis opcionais:
-
-```text
-DB_URL=jdbc:postgresql://localhost:5432/kanban
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-```
-
-A API usa `http://localhost:8090/api/v1` e o health check está em `/actuator/health`.
-
+A API usa `http://localhost:8090/api/v1` e o health check está em `/actuator/health`. Os dados existem apenas enquanto a API está em execução e são apagados ao reiniciá-la.

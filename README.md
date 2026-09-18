@@ -2,10 +2,13 @@
 
 > **Construa uma API Kanban com Spring Boot e publique tudo no Railway.**
 
+> Esta branch é a alternativa local com H2 em memória. O deploy da semana 2 continua usando PostgreSQL no Railway.
+
 ![Java 17](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-6DB33F?logo=springboot&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
+![H2](https://img.shields.io/badge/H2-Database-1E4C6E)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Railway-4169E1?logo=postgresql&logoColor=white)
 ![Railway](https://img.shields.io/badge/Railway-Deploy-0B0D0D?logo=railway&logoColor=white)
 
 ## O workshop
@@ -14,18 +17,18 @@ Este workshop acontece em dois momentos:
 
 | Semana | Objetivo | Resultado |
 | --- | --- | --- |
-| 1. Funciona localmente | Implementar a API e conectar o frontend ao PostgreSQL local. | Frontend → API → PostgreSQL no seu computador |
+| 1. Funciona localmente | Implementar a API e conectar o frontend ao H2 em memória. | Frontend → API → H2 no seu computador |
 | 2. Funciona na cloud | Empacotar os serviços com Docker e publicar no Railway. | Frontend, API e banco acessíveis pela internet |
 
 ```mermaid
 flowchart LR
     F[Frontend React] -->|HTTP /api/v1| B[API Spring Boot]
-    B -->|JPA| P[(PostgreSQL)]
+    B -->|JPA| H[(H2 em memória)]
 
-    subgraph Local ou Railway
+    subgraph Local
       F
       B
-      P
+      H
     end
 ```
 
@@ -35,15 +38,9 @@ flowchart LR
 
 Cada grupo deve trabalhar no próprio fork. É esse repositório que será conectado ao Railway na segunda semana.
 
-### 2. Crie o banco local
+### 2. Banco local pronto
 
-Com o PostgreSQL instalado e em execução, crie o banco usado pela API:
-
-```bash
-psql -U postgres -c "CREATE DATABASE kanban;"
-```
-
-A configuração padrão usa `postgres/postgres` e `localhost:5432`. Se necessário, altere `DB_URL`, `DB_USERNAME` e `DB_PASSWORD`.
+Não é necessário instalar ou configurar um banco local: o backend usa H2 em memória. Os dados são apagados sempre que a API é reiniciada.
 
 ### 3. Suba o backend
 
@@ -81,7 +78,7 @@ No frontend, acesse **Configurações → Auditoria da API**. A tela prepara dad
 O caminho de cada funcionalidade é sempre:
 
 ```text
-Frontend → Controller → Service → Repository → PostgreSQL
+Frontend → Controller → Service → Repository → H2
 ```
 
 ## Frontend com uma API publicada
@@ -95,7 +92,9 @@ VITE_API_URL=https://SEU-BACKEND.up.railway.app npm run dev
 
 Informe apenas a origem da API, sem `/api/v1`.
 
-## Semana 2 — Railway
+## Semana 2 — Railway (PostgreSQL)
+
+O H2 desta branch é exclusivamente uma contingência para execução local. Para publicar no Railway, siga este roteiro com PostgreSQL.
 
 Crie um projeto no Railway e adicione três serviços: **PostgreSQL**, **backend** e **frontend**.
 
@@ -142,5 +141,4 @@ O container lê `VITE_API_URL` quando inicia. Assim, a URL do backend pode mudar
 
 ## Tecnologias
 
-Java 17 · Spring Boot · Spring Data JPA · PostgreSQL · React · TypeScript · Docker · Railway
-
+Java 17 · Spring Boot · Spring Data JPA · H2 (local) · PostgreSQL (Railway) · React · TypeScript · Docker · Railway
