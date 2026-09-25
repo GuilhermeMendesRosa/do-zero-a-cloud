@@ -106,7 +106,7 @@ podman ps
 podman logs --tail 30 kanban-banco
 ```
 
-Espere uma mensagem semelhante a `database system is ready to accept connections`. O arquivo Compose prepara o banco `kanban`, usuário `postgres` e senha local `postgres`.
+Espere uma mensagem semelhante a `database system is ready to accept connections`. O arquivo Compose prepara o banco `kanban`, usuário `postgres` e senha local `postgres`. No computador, o banco fica acessível pela porta `5433`; dentro da rede do Compose, continua usando `5432`.
 
 ## 6. Iniciar a API
 
@@ -217,13 +217,13 @@ Para parar e remover os containers e a rede criados pelo Compose:
 podman-compose down
 ```
 
-O volume `dados-postgres` permanece. Assim, subir os serviços novamente mantém os dados. Para apagar também o volume e começar com banco vazio:
+O volume `dados-postgres` permanece. Assim, subir os serviços novamente mantém os dados. Para resetar o exercício e começar com banco vazio, removendo também os containers, a rede e o volume com os dados, execute:
 
 ```bash
 podman-compose down --volumes
 ```
 
-Use `--volumes` somente quando quiser remover os dados salvos neste exercício.
+Esse comando mantém as imagens baixadas para que a próxima execução não precise baixá-las novamente.
 
 ## Problemas comuns
 
@@ -234,7 +234,7 @@ Use `--volumes` somente quando quiser remover os dados salvos neste exercício.
 | `podman-compose` não é reconhecido | Confira se o pacote `podman-compose` terminou de instalar com `sudo apt install -y podman-compose`. |
 | O download de `compose.yaml` retorna 404 | Verifique o caminho atual com `pwd`, refaça o download na raiz do fork e confirme que o arquivo está publicado na branch `main` original. |
 | O backend não conecta ao banco | Confira `podman ps -a` e `podman logs kanban-banco`. Espere o banco ficar pronto e reinicie a API com `podman restart kanban-backend`. |
-| Uma porta já está em uso | Confira containers com `podman ps` e feche o processo que já usa 5432, 8090 ou 5173. |
+| Uma porta já está em uso | Confira containers com `podman ps` e libere a porta ocupada entre 5433, 8090 e 5173. Se 5433 estiver ocupada, altere somente a porta publicada do banco em `compose.yaml` (por exemplo, `5434:5432`); a API continua usando `banco:5432`. |
 | A página abre, mas a API falha | Confira o health check e os logs do backend. Confirme também que os checkpoints dos TODOs foram implementados. |
 | Os builds demoram | A primeira execução baixa imagens e bibliotecas. Aguarde a conclusão e leia os logs do container que falhou. |
 
