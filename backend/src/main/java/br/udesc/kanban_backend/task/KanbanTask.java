@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import jakarta.validation.constraints.PositiveOrZero;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +30,12 @@ public class KanbanTask {
     private UUID id;
 
     @Getter
-    // TODO 3a: mapeie o nome como coluna obrigatória com no máximo 120 caracteres.
+    @Column(nullable = false, length = 120)
     private String name;
-
+    
     @Getter
-    // TODO 3a: mapeie a posição na coluna física position, obrigatória e positivo ou zero.
+    @PositiveOrZero
+    @Column(name = "position", nullable = false)
     private int position;
 
     @Getter
@@ -69,14 +70,19 @@ public class KanbanTask {
             List<String> tags,
             BoardColumn column
     ) {
-        // TODO 3: inicialize todos os campos e faça uma cópia defensiva das tags.
-        throw new UnsupportedOperationException("TODO 3: construir tarefa");
+        // Cada tarefa recebe um identificador novo.
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.position = position;
+        this.createdAt = createdAt;
+        this.dueDate = dueDate;
+        this.completed = completed;
+    
+        // Copia a lista para que alterações feitas pelo chamador não mudem a tarefa.
+        this.tags = new ArrayList<>(tags);
+        this.column = column;
     }
-
-    public List<String> getTags() {
-        return List.copyOf(tags);
-    }
-
+    
     public void update(
             String name,
             int position,
@@ -85,7 +91,23 @@ public class KanbanTask {
             List<String> tags,
             BoardColumn column
     ) {
-        // TODO 3: atualize os campos permitidos sem alterar createdAt.
-        throw new UnsupportedOperationException("TODO 3: atualizar tarefa");
+        // Atualiza os campos que podem mudar.
+        this.name = name;
+        this.position = position;
+        this.dueDate = dueDate;
+        this.completed = completed;
+    
+        // Mantém a lista interna e substitui o conteúdo das tags.
+        this.tags.clear();
+        this.tags.addAll(tags);
+    
+        this.column = column;
+    
+        // createdAt não é alterado: representa quando a tarefa foi criada.
     }
+
+    public List<String> getTags() {
+    return List.copyOf(tags);
+}
+   
 }

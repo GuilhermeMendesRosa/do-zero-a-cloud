@@ -1,10 +1,13 @@
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /workspace
+
 COPY pom.xml .
 COPY src ./src
 RUN mvn -q package
 
 FROM eclipse-temurin:17-jre
-COPY --from=build /workspace/target/kanban-backend-*.jar /app.jar
+WORKDIR /app
+COPY --from=build /workspace/target/kanban-backend-*.jar app.jar
+
 EXPOSE 8090
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
