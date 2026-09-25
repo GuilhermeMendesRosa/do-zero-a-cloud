@@ -33,7 +33,7 @@ public class BoardColumn {
     private String name;
 
     @Getter
-    @Column(name = "position_index", nullable = false)
+    @Column(name = "position", nullable = false)
     private int position;
 
     @Getter

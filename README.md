@@ -78,6 +78,12 @@ No frontend, acesse **Configurações → Auditoria da API**. A tela prepara dad
 | 2. Column | controller e service para criar/listar colunas | path variable, regra de negócio e repository |
 | 3. Task | mapeamentos, entidade, repository, service e controller | JPA, persistência e fluxo vertical completo |
 
+As resoluções comentadas para copiar e colar estão em [`docs/resolucao-todos.md`](docs/resolucao-todos.md).
+
+### 6. Prática local com containers
+
+Depois de concluir os checkpoints, siga o [exercício de containers com Podman no WSL](docs/exercicio-containers.md). O Podman e o Compose são instalados pelo terminal do Ubuntu. Como os forks foram criados antes do `compose.yaml`, o roteiro também mostra como baixá-lo do repositório original para a raiz do fork. Em seguida, inicie PostgreSQL, backend e frontend separadamente e experimente logs, reinícios e persistência.
+
 O caminho de cada funcionalidade é sempre:
 
 ```text
@@ -137,10 +143,11 @@ O container lê `VITE_API_URL` quando inicia. Assim, a URL do backend pode mudar
 .
 ├── backend/     # API Spring Boot e exercícios
 ├── frontend/    # Interface React e auditoria guiada
+├── docs/        # resolução dos TODOs e prática com containers
+├── compose.yaml # serviços locais para Podman Compose
 └── README.md    # guia principal do workshop
 ```
 
 ## Tecnologias
 
 Java 17 · Spring Boot · Spring Data JPA · PostgreSQL · React · TypeScript · Docker · Railway
-

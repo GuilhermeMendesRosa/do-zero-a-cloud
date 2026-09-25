@@ -1,0 +1,48 @@
+services:
+  banco:
+    image: docker.io/library/postgres:16-alpine
+    container_name: kanban-banco
+    environment:
+      POSTGRES_DB: kanban
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - dados-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d kanban"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kanban-backend
+    environment:
+      DB_URL: jdbc:postgresql://banco:5432/kanban
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      PORT: 8090
+    ports:
+      - "8090:8090"
+    depends_on:
+      - banco
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: kanban-frontend
+    environment:
+      VITE_API_URL: http://localhost:8090
+      PORT: 3000
+    ports:
+      - "5173:3000"
+    depends_on:
+      - backend
+
+volumes:
+  dados-postgres:
