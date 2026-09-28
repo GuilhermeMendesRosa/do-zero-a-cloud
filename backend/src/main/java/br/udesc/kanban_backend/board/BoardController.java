@@ -27,8 +27,8 @@ public class BoardController {
 
     @GetMapping
     public List<BoardResponse> list() {
-        // O controller recebe a chamada HTTP e delega a consulta ao service.
-        return boardService.list();
+        // TODO 1: delegue a listagem para o service e retorne os quadros.
+        throw new UnsupportedOperationException("TODO 1: listar quadros");
     }
 
     @PostMapping
