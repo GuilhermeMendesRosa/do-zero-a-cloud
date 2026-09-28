@@ -1,8 +1,8 @@
-# Backend — Starter
+# Backend — Implementação final
 
-API Spring Boot inicial do workshop, com TODOs organizados em três checkpoints.
-A implementação completa está em [backend-final](../backend-final/). O roteiro
-da atividade está no [README principal](../README.md).
+API Spring Boot completa do workshop, com os checkpoints de quadros, colunas e
+tarefas implementados. O projeto inicial para a atividade está em
+[backend](../backend/), e o roteiro está no [README principal](../README.md).
 
 ## Executar
 

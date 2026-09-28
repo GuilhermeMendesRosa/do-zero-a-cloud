@@ -80,9 +80,21 @@ No frontend, acesse **Configurações → Auditoria da API**. A tela prepara dad
 
 As resoluções comentadas para copiar e colar estão em [`docs/resolucao-todos.md`](docs/resolucao-todos.md).
 
+O código de partida fica em [`backend/`](backend/). A implementação completa,
+com todos os checkpoints e a exclusão de tarefas resolvidos, fica em
+[`backend-final/`](backend-final/). Para consultar a solução sem alterar seu
+exercício, abra essa segunda pasta como um projeto Spring Boot separado.
+
 ### 6. Prática local com containers
 
 Depois de concluir os checkpoints, siga o [exercício de containers com Podman no WSL](docs/exercicio-containers.md). O Podman e o Compose são instalados pelo terminal do Ubuntu. Como os forks foram criados antes do `compose.yaml`, o roteiro também mostra como baixá-lo do repositório original para a raiz do fork. Em seguida, inicie PostgreSQL, backend e frontend separadamente e experimente logs, reinícios e persistência.
+
+O `compose.yaml` usa o starter em `backend/` para a atividade. Para executar a
+implementação completa com os mesmos serviços, use:
+
+```bash
+podman compose -f compose.yaml -f compose.final.yaml up --build
+```
 
 O caminho de cada funcionalidade é sempre:
 
@@ -112,6 +124,7 @@ Informe apenas a origem da API, sem `/api/v1`.
 1. Adicione um serviço a partir do seu repositório GitHub.
 2. Selecione o repositório deste projeto.
 3. Configure **Root Directory** como `/backend`.
+   Para publicar a implementação completa, use `/backend-final`.
 4. Adicione as variáveis:
 
 ```text
@@ -145,10 +158,12 @@ O container lê `VITE_API_URL` quando inicia. Assim, a URL do backend pode mudar
 
 ```text
 .
-├── backend/     # API Spring Boot e exercícios
+├── backend/       # API Spring Boot inicial com checkpoints
+├── backend-final/ # API Spring Boot completamente implementada
 ├── frontend/    # Interface React e auditoria guiada
 ├── docs/        # resolução dos TODOs e prática com containers
-├── compose.yaml # serviços locais para Podman Compose
+├── compose.yaml       # serviços locais com o backend inicial
+├── compose.final.yaml # troca o backend pela implementação completa
 └── README.md    # guia principal do workshop
 ```
 
